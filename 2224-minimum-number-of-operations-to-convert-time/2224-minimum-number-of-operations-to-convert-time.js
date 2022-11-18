@@ -4,27 +4,28 @@
  * @return {number}
  */
 const convertTime = (current, correct) => {
+  if (current === correct) return 0;
+
   let result = 0;
   const currentArr = current.split(":");
   const correctArr = correct.split(":");
   let currentMinutes = +currentArr[0] * 60 + +currentArr[1];
   let correctMinutes = +correctArr[0] * 60 + +correctArr[1];
+  let difference = correctMinutes - currentMinutes;
 
-  while (currentMinutes <= correctMinutes) {
-    if (correctMinutes - currentMinutes >= 60) {
-      result += 1;
-      correctMinutes = correctMinutes - 60;
-    } else if (correctMinutes - currentMinutes >= 15 && correctMinutes - currentMinutes < 60) {
-      result += 1;
-      correctMinutes = correctMinutes - 15;
-    } else if (correctMinutes - currentMinutes >= 5 && correctMinutes - currentMinutes < 15) {
-      result += 1;
-      correctMinutes = correctMinutes - 5;
-    } else if (correctMinutes - currentMinutes >= 1 && correctMinutes - currentMinutes < 5) {
-      result += 1;
-      correctMinutes = correctMinutes - 1;
+  while (difference !== 0) {
+    if (difference % 60 === 0) {
+      result++;
+      difference -= 60;
+    } else if (difference % 15 === 0) {
+      result++;
+      difference -= 15;
+    } else if (difference % 5 === 0) {
+      result++;
+      difference -= 5;
     } else {
-      break;
+      result++;
+      difference -= 1;
     }
   }
   return result;
